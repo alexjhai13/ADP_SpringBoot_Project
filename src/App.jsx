@@ -7,7 +7,8 @@ import Login from './components/Login';
 import UpdateCustomerForm from './components/UpdateCustomerForm';
 // import {CookiesProvider} from 'react-cookie';
 import AuthorizeAccess from './components/AuthorizeAccess';
-import OrgChart from './components/OrgChart';
+import OrgChart from './components/OrgChart'; 
+import UserCalendar from './components/Calendar';
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
               } />
           </Route>
           <Route path="/login" element={<Login />} />
+          <Route path="/events" element={<UserCalendar />}/>
         </Routes>
       </div>
     </Router>

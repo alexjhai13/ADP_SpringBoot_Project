@@ -1,0 +1,20 @@
+.Container > * > * {
+    max-width: 100%;
+    max-height: 100%;
+    margin: 10px;
+}
+
+
+.Container__content {
+  display: flex;
+  max-width: 100%;
+  flex-basis: 420px;
+  flex-direction: column;
+  flex-grow: 100;
+  align-items: stretch;
+  padding-top: 1em;
+}
+
+.Container__content .react-calendar {
+  margin: 0 auto;
+}
