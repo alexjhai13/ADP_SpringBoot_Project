@@ -7,7 +7,10 @@ import Login from './components/Login';
 import UpdateCustomerForm from './components/UpdateCustomerForm';
 // import {CookiesProvider} from 'react-cookie';
 import AuthorizeAccess from './components/AuthorizeAccess';
-import OrgChart from './components/OrgChart';
+import OrgChart from './components/OrgChart'; 
+import UserCalendar from './components/Calendar';
+import EventRegisterForm from './components/EventRegisterForm'
+import AddEventForm from './components/AddEventForm';
 
 function App() {
   return (
@@ -31,6 +34,13 @@ function App() {
               } />
           </Route>
           <Route path="/login" element={<Login />} />
+          <Route path="/events" element={<UserCalendar />}/>
+          <Route path ="/events/register" element={<EventRegisterForm/>}/>
+          <Route path="/events/addevent" element={
+            <AuthorizeAccess>
+              <AddEventForm />
+            </AuthorizeAccess>
+            }/>
         </Routes>
       </div>
     </Router>
