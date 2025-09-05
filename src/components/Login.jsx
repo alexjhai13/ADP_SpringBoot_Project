@@ -9,7 +9,7 @@ import * as usersApi from "../api/users";
 //sends headers to /token endpoint to receive JWT
 function validateLoginInfo(username, password, cb) {
   const myHeaders = new Headers();
-  myHeaders.append("Authorization", `Basic ${btoa(`${username}:${password}`)}`);
+  myHeaders.append("Login", `Basic ${btoa(`${username}:${password}`)}`);
 
   const requestOptions = {
     method: "POST",
@@ -25,11 +25,9 @@ function validateLoginInfo(username, password, cb) {
     .catch((error) => console.error(error));
 }
 
-const Login = () => {
+const Login = ({JWT, setJWT }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [JWT, setJWT] = useState("");
-  //const [cookies, setCookie] = useCookies(['admin']);
   const [users, setUsers] = useState([]);
   const navigate = useNavigate();
 
