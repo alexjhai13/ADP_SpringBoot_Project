@@ -6,21 +6,18 @@ import './Calendar.css'
 import 'react-calendar/dist/Calendar.css';
 
 /** TODO: FIX CALENDAR SIZE */
-/** TODO */
+/** TODO: FIX WEBPAGE CSS */
 
 export default function UserCalendar(){
     return (
         <div className="min-h-screen bg-gray-50">
             <NavigationBar />
                 <div>
-                    <div>
                     <EventList/>
-                    </div>
-                    {/* <div>
-                    <Calendar/>
-                    </div> */}
                 </div>
-
+                {/* <div>
+                    <Calendar/>
+                </div> */}
         </div>
     );
 }

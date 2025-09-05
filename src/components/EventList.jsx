@@ -127,10 +127,16 @@ const EventList = () => {
             <h3>Events:</h3>
             {/* TODO EITHER NAVIGATE TO NEW PAGE OR NEW POP UP */}
             <button
-              onClick={() => navigate('/dashboard/add')}
+              onClick={() => navigate('/events/addevent')}
               className="px-3 py-1 bg-green-600 text-white rounded"
             >
               Add
+            </button>
+            <button
+                onClick={() => navigate('/events/register')}
+                className="px-3 py-1 bg-green-600 text-white rounded"
+              >
+                View Events
             </button>
           </div>        
         <div className="flex-1 overflow-y-auto">
