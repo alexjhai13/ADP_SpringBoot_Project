@@ -1,31 +1,32 @@
-import React from "react";
 import { useState, useEffect } from "react";
 import NavigationBar from "./NavigationBar";
 import { useNavigate } from "react-router-dom";
 import "./Login.css";
-// import { useCookies } from 'react-cookie'
 import * as usersApi from "../api/users";
+import { jwtDecode } from "jwt-decode";
 
 //sends headers to /token endpoint to receive JWT
 function validateLoginInfo(username, password, cb) {
   const myHeaders = new Headers();
-  myHeaders.append("Login", `Basic ${btoa(`${username}:${password}`)}`);
+  myHeaders.append("Authorization", `Basic ${btoa(`${username}:${password}`)}`);
 
   const requestOptions = {
-    method: "POST",
+    method: "GET",
     headers: myHeaders,
     redirect: "follow",
   };
 
   fetch(import.meta.env.VITE_REACT_APP_AUTH_SERVER_URL, requestOptions)
-    .then((response) => response.text())
-    .then((result) => {
-      cb(null, result);
+    .then((response) => {
+      return response.text();
     })
-    .catch((error) => console.error(error));
+    .then((result) => {
+      cb(null, [result, jwtDecode(result)]);
+    })
+    .catch((error) => cb(error));
 }
 
-const Login = ({JWT, setJWT }) => {
+const Login = ({ JWT, setJWT }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [users, setUsers] = useState([]);
@@ -36,11 +37,13 @@ const Login = ({JWT, setJWT }) => {
   }, []);
 
   const handleLogin = () => {
-    const cb = (error, result) => {
+    const cb = (error, [rawJWT, decodedJWT]) => {
       if (error) {
         throw new Error("ValidateLoginInfo had an error.");
       }
-      setJWT(result);
+      setJWT(rawJWT);
+      console.log("in cb: ", JWT);
+      navigate("/dashboard");
     };
 
     validateLoginInfo(username, password, cb);
@@ -48,7 +51,7 @@ const Login = ({JWT, setJWT }) => {
 
   return (
     <>
-      <NavigationBar />
+      <NavigationBar JWT={JWT} />
       <div className={"login-container"}>
         <h1 className={"login-header"}>Login</h1>
         <input

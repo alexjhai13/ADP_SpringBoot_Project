@@ -1,19 +1,14 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
 //import { useCookies } from 'react-cookie'
 
-const NavigationBar = () => {
+const NavigationBar = ({ JWT, setJWT }) => {
   const location = useLocation();
-  //const [cookies, updateCookie] = useCookies(['admin']);
-
-  const isAdmin = sessionStorage.getItem('isAdmin') === 'true';
 
   const handleLogout = () => {
-    sessionStorage.removeItem('isAdmin');
-    sessionStorage.removeItem('user');
-    alert('User logged out successfully');
-  }
-
+    setJWT("");
+    alert("User logged out successfully");
+  };
 
   return (
     <nav className="bg-slate-800 p-4 shadow-md sticky top-0 z-50">
@@ -23,44 +18,56 @@ const NavigationBar = () => {
         </div>
         <ul className="flex space-x-8">
           {/** ADDED TO REROUTE TO My Evenets PAGE */}
-          <li>
-            <Link to={isAdmin ? "/events" : "/login"}
-              className={`px-4 py-2 rounded font-medium transition-all duration-300 ${location.pathname === '/events'
-                ? 'text-blue-400 bg-slate-700'
-                : 'text-slate-300 hover:text-slate-100 hover:bg-slate-700'
-                }`}>
-                  My Events
-            </Link>
-            {/**  */}
-            <Link
-              to={isAdmin ? "/dashboard" : "/login"}
-              className={`px-4 py-2 rounded font-medium transition-all duration-300 ${location.pathname === '/login'
-                ? 'text-blue-400 bg-slate-700'
-                : 'text-slate-300 hover:text-slate-100 hover:bg-slate-700'
+          {JWT && (
+            <li>
+              <Link
+                to="/events"
+                className={`px-4 py-2 rounded font-medium transition-all duration-300 ${
+                  location.pathname === "/events"
+                    ? "text-blue-400 bg-slate-700"
+                    : "text-slate-300 hover:text-slate-100 hover:bg-slate-700"
                 }`}
-              onClick={() => { if (isAdmin) {handleLogout()} }}
-            >
-              {isAdmin ? 'Logout' : 'Login'}
-            </Link>
-            <Link
-              to="/dashboard"
-              className={`px-4 py-2 rounded font-medium transition-all duration-300 ${location.pathname === '/dashboard'
-                ? 'text-blue-400 bg-slate-700'
-                : 'text-slate-300 hover:text-slate-100 hover:bg-slate-700'
+              >
+                My Events
+              </Link>
+              {/**  */}
+              <Link
+                to="/dashboard"
+                className={`px-4 py-2 rounded font-medium transition-all duration-300 ${
+                  location.pathname === "/login"
+                    ? "text-blue-400 bg-slate-700"
+                    : "text-slate-300 hover:text-slate-100 hover:bg-slate-700"
                 }`}
-            >
-              Dashboard
-            </Link>
-            <Link
+                onClick={() => {
+                  if (JWT) {
+                    handleLogout();
+                  }
+                }}
+              >
+                {JWT ? "Logout" : "Login"}
+              </Link>
+              <Link
+                to="/dashboard"
+                className={`px-4 py-2 rounded font-medium transition-all duration-300 ${
+                  location.pathname === "/dashboard"
+                    ? "text-blue-400 bg-slate-700"
+                    : "text-slate-300 hover:text-slate-100 hover:bg-slate-700"
+                }`}
+              >
+                Dashboard
+              </Link>
+              <Link
                 to="/dashboard/orgchart"
-                className={`px-4 py-2 rounded font-medium transition-all duration-300 ${location.pathname === '/dashboard/orgchart'
-                  ? 'text-blue-400 bg-slate-700'
-                  : 'text-slate-300 hover:text-slate-100 hover:bg-slate-700'
-                  }`}
-            >
-              Org Chart
-            </Link>
-          </li>
+                className={`px-4 py-2 rounded font-medium transition-all duration-300 ${
+                  location.pathname === "/dashboard/orgchart"
+                    ? "text-blue-400 bg-slate-700"
+                    : "text-slate-300 hover:text-slate-100 hover:bg-slate-700"
+                }`}
+              >
+                Org Chart
+              </Link>
+            </li>
+          )}
         </ul>
       </div>
     </nav>

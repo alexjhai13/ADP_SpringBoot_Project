@@ -24,9 +24,12 @@ function App() {
       <div className="App">
         <Routes>
           <Route path="/" element={<Navigate to="/login" replace />} />
-          <Route element={<LoginAuthorizationAccess />}>
-            <Route path="/dashboard" element={<Dashboard />}>
-              <Route path="orgchart" element={<OrgChart />} />
+          <Route element={<LoginAuthorizationAccess JWT={JWT} />}>
+            <Route
+              path="/dashboard"
+              element={<Dashboard JWT={JWT} setJWT={setJWT} />}
+            >
+              <Route path="orgchart" element={<OrgChart JWT={JWT} />} />
               <Route index element={<CustomerList />} />
               <Route
                 path="add"
