@@ -26,7 +26,15 @@ function validateLoginInfo(username, password, cb) {
     .catch((error) => cb(error, null));
 }
 
-const Login = ({ JWT, setJWT, setIsAdmin }) => {
+const Login = ({ 
+  JWT, 
+  setJWT, 
+  setIsAdmin, 
+  authority, 
+  setAuthority, 
+  loggedInUser, 
+  setLoggedInUser 
+}) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [users, setUsers] = useState([]);
@@ -48,8 +56,21 @@ const Login = ({ JWT, setJWT, setIsAdmin }) => {
       setJWT(rawJWT);
       setWrongLogin(false);
 
-      if (jwtDecode(rawJWT)["scope"] === "ROLE_ADMIN") {
+      // Extract user information from JWT
+      console.log("Decoded JWT:", decodedJWT); // DEBUG REMOVE IN PROD
+      
+      // Set the logged-in username
+      setLoggedInUser(decodedJWT.sub || decodedJWT.username || username);
+      
+      // Set the authority level
+      const userAuthority = decodedJWT.scope || decodedJWT.authorities || decodedJWT.role || "user";
+      setAuthority(userAuthority);
+
+      // Check if user is admin
+      if (decodedJWT["scope"] === "ROLE_ADMIN" || userAuthority === "ROLE_ADMIN") {
         setIsAdmin(true);
+      } else {
+        setIsAdmin(false);
       }
 
       navigate("/dashboard");
@@ -70,6 +91,7 @@ const Login = ({ JWT, setJWT, setIsAdmin }) => {
           onChange={(e) => setUsername(e.target.value)}
           className="login-input"
           autoComplete="off"
+          value={username}
         />
         <div />
         <input
@@ -79,6 +101,7 @@ const Login = ({ JWT, setJWT, setIsAdmin }) => {
           onChange={(e) => setPassword(e.target.value)}
           className="login-input"
           autoComplete="off"
+          value={password}
         />
         <br />
 
@@ -86,6 +109,16 @@ const Login = ({ JWT, setJWT, setIsAdmin }) => {
           Login
         </button>
         {wrongLogin && <h1>Username or password is incorrect.</h1>}
+        
+        {/* DEBUG REMOVE IN PROD */}
+        {process.env.NODE_ENV === 'development' && loggedInUser && (
+          <div style={{ marginTop: '20px', fontSize: '12px', color: '#666', border: '1px solid #ccc', padding: '10px' }}>
+            <p><strong>Debug Info:</strong></p>
+            <p>Logged in user: {loggedInUser}</p>
+            <p>Authority: {authority}</p>
+            <p>Is Admin: {setIsAdmin ? 'Yes' : 'No'}</p>
+          </div>
+        )}
       </div>
     </>
   );

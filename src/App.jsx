@@ -14,10 +14,14 @@ import AuthorizeAccess from "./components/AuthorizeAccess";
 import OrgChart from "./components/OrgChart";
 import { useState } from "react";
 import LoginAuthorizationAccess from "./components/LoginAuthorizationAccess";
+import EventList from "./components/EventList";
 
 function App() {
-  const [JWT, setJWT] = useState("");
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [JWT, setJWT] = useState("jwt");
+  const [isAdmin, setIsAdmin] = useState(true);
+  const [authority, setAuthority] = useState("");
+  const [loggedInUser, setLoggedInUser] = useState("");
+
   return (
     <Router>
       <div className="App">
@@ -51,8 +55,28 @@ function App() {
           <Route
             path="/login"
             element={
-              <Login JWT={JWT} setJWT={setJWT} setIsAdmin={setIsAdmin} />
+              <Login
+                JWT={JWT}
+                setJWT={setJWT}
+                setIsAdmin={setIsAdmin}
+                authority={authority}
+                setAuthority={setAuthority}
+                loggedInUser={loggedInUser}
+                setLoggedInUser={setLoggedInUser}
+              />
             }
+          />
+          <Route 
+            path="/events" 
+            element={
+              <EventList 
+                JWT={JWT} 
+                setJWT={setJWT} 
+                loggedInUser={loggedInUser}
+                authority={authority}
+                isAdmin={isAdmin}
+              />
+            } 
           />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>

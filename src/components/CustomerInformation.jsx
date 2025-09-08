@@ -69,7 +69,7 @@ const CustomerInformation = ({ customers, onRemoveCustomer }) => {
                   </div>
                   <div>
                     <p className="font-semibold">Reports to:</p>
-                    <p>{getManagerName(customer.managerId) ?? '—'}</p>
+                    <p>{getManagerName(customer.managerId) ?? 'No Manager'}</p>
                   </div>
                   <div>
                     <p className="font-semibold">Level:</p>

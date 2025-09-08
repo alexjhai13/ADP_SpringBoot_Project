@@ -165,7 +165,7 @@ function OrgChart() {
                       className="bg-white border border-gray-300 rounded-lg p-4 shadow-sm hover:shadow-md transition-shadow flex items-center min-w-[250px] max-w-[300px]"
                     >
                       <img
-                        src={customer.profile_picture}
+                        src={customer.profilePicture}
                         alt={customer.name}
                         className="w-12 h-12 rounded-full mr-3 object-cover border-2 border-gray-200"
                       />

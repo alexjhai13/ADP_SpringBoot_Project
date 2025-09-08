@@ -6,29 +6,70 @@ import * as customersApi from "../api/customers";
 
 const Dashboard = ({ JWT, setJWT }) => {
   const [customers, setCustomers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  //Grabs all the Customer data
+  //Grabs all the Customer data with JWT
   useEffect(() => {
-    customersApi.getAll().then(setCustomers);
-  }, []);
+    const fetchCustomers = async () => {
+      if (!JWT) {
+        setError("No authentication token available");
+        setLoading(false);
+        return;
+      }
 
-  //Add Customer Handler
+      try {
+        setLoading(true);
+        setError(null);
+        const data = await customersApi.getAll(JWT);
+        setCustomers(data);
+      } catch (err) {
+        console.error("Error fetching customers:", err);
+        setError("Failed to fetch customers. Please check your authentication.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCustomers();
+  }, [JWT]);
+
+  //Add Customer Handler with JWT
   const addCustomer = async (cust) => {
-    const created = await customersApi.create(cust);
-    setCustomers((prev) => [...prev, created]); // refreshes the state after customer is added
+    try {
+      const created = await customersApi.create(cust, JWT);
+      setCustomers((prev) => [...prev, created]); // refreshes the state after customer is added
+      return created;
+    } catch (err) {
+      console.error("Error adding customer:", err);
+      setError("Failed to add customer. Please check your authentication.");
+      throw err;
+    }
   };
 
-  //Update Customer Handler
+  //Update Customer Handler with JWT
   const updateCustomer = async (cust) => {
-    await customersApi.update(cust);
-    const data = await customersApi.getAll(); // grabs new/updated data from api
-    setCustomers(data);
+    try {
+      await customersApi.update(cust, JWT);
+      const data = await customersApi.getAll(JWT); // grabs new/updated data from api
+      setCustomers(data);
+    } catch (err) {
+      console.error("Error updating customer:", err);
+      setError("Failed to update customer. Please check your authentication.");
+      throw err;
+    }
   };
 
-  //Delete Customer Handler
+  //Delete Customer Handler with JWT
   const deleteCustomer = async (id) => {
-    await customersApi.remove(id);
-    setCustomers((prev) => prev.filter((c) => c.id !== id));
+    try {
+      await customersApi.remove(id, JWT);
+      setCustomers((prev) => prev.filter((c) => c.id !== id));
+    } catch (err) {
+      console.error("Error deleting customer:", err);
+      setError("Failed to delete customer. Please check your authentication.");
+      throw err;
+    }
   };
 
   return (
@@ -44,14 +85,30 @@ const Dashboard = ({ JWT, setJWT }) => {
             <h2 className="text-xl font-semibold text-gray-900 mb-4">
               Customer List
             </h2>
-            <Outlet
-              context={{
-                customers,
-                addCustomer,
-                updateCustomer,
-                deleteCustomer,
-              }}
-            />
+            
+            {/* Error handling */}
+            {error && (
+              <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+                <strong>Error:</strong> {error}
+              </div>
+            )}
+            
+            {/* Loading state */}
+            {loading ? (
+              <div className="text-center py-4">
+                <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-gray-900"></div>
+                <p className="mt-2 text-gray-600">Loading customers...</p>
+              </div>
+            ) : (
+              <Outlet
+                context={{
+                  customers,
+                  addCustomer,
+                  updateCustomer,
+                  deleteCustomer,
+                }}
+              />
+            )}
           </div>
         </div>
       </div>
