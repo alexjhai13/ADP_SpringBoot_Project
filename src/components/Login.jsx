@@ -21,15 +21,16 @@ function validateLoginInfo(username, password, cb) {
       return response.text();
     })
     .then((result) => {
-      cb(null, [result, jwtDecode(result)]);
+      return cb(null, [result, jwtDecode(result)]);
     })
-    .catch((error) => cb(error));
+    .catch((error) => cb(error, null));
 }
 
-const Login = ({ JWT, setJWT }) => {
+const Login = ({ JWT, setJWT, setIsAdmin }) => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [users, setUsers] = useState([]);
+  const [wrongLogin, setWrongLogin] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,12 +38,20 @@ const Login = ({ JWT, setJWT }) => {
   }, []);
 
   const handleLogin = () => {
-    const cb = (error, [rawJWT, decodedJWT]) => {
+    const cb = (error, data) => {
       if (error) {
+        setWrongLogin(true);
         throw new Error("ValidateLoginInfo had an error.");
       }
+      const [rawJWT, decodedJWT] = data;
+
       setJWT(rawJWT);
-      console.log("in cb: ", JWT);
+      setWrongLogin(false);
+
+      if (jwtDecode(rawJWT)["scope"] === "ROLE_ADMIN") {
+        setIsAdmin(true);
+      }
+
       navigate("/dashboard");
     };
 
@@ -76,7 +85,7 @@ const Login = ({ JWT, setJWT }) => {
         <button onClick={handleLogin} className={"login-button"}>
           Login
         </button>
-        <h1>jwt: {JWT}</h1>
+        {wrongLogin && <h1>Username or password is incorrect.</h1>}
       </div>
     </>
   );

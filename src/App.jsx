@@ -10,7 +10,6 @@ import CustomerList from "./components/CustomerList";
 import AddCustomerForm from "./components/AddCustomerForm";
 import Login from "./components/Login";
 import UpdateCustomerForm from "./components/UpdateCustomerForm";
-// import {CookiesProvider} from 'react-cookie';
 import AuthorizeAccess from "./components/AuthorizeAccess";
 import OrgChart from "./components/OrgChart";
 import { useState } from "react";
@@ -18,7 +17,7 @@ import LoginAuthorizationAccess from "./components/LoginAuthorizationAccess";
 
 function App() {
   const [JWT, setJWT] = useState("");
-
+  const [isAdmin, setIsAdmin] = useState(false);
   return (
     <Router>
       <div className="App">
@@ -49,7 +48,12 @@ function App() {
               />
             </Route>
           </Route>
-          <Route path="/login" element={<Login JWT={JWT} setJWT={setJWT} />} />
+          <Route
+            path="/login"
+            element={
+              <Login JWT={JWT} setJWT={setJWT} setIsAdmin={setIsAdmin} />
+            }
+          />
           <Route path="*" element={<Navigate to="/" />} />
         </Routes>
       </div>

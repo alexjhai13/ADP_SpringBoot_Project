@@ -7,7 +7,8 @@ const NavigationBar = ({ JWT, setJWT }) => {
 
   const handleLogout = () => {
     setJWT("");
-    alert("User logged out successfully");
+    // alert("User logged out successfully");
+    
   };
 
   return (
