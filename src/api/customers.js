@@ -1,4 +1,4 @@
-const baseURL = "https://adp-gpt-phase1-project-backend.onrender.com/customers";
+const baseURL = "https://2iszpcnea6.execute-api.us-west-2.amazonaws.com/dev/api/customers";
 
 export async function getAll() {
   const res = await fetch(baseURL);
@@ -19,10 +19,9 @@ export async function create(customer) {
 
 
 // call to update customer
-// using PATCH because I wanted to test if it works as well as PUT
 export async function update(customer) {
   const res = await fetch(`${baseURL}/${customer.id}`, {
-    method: "PATCH",
+    method: "PUT",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(customer),
   });

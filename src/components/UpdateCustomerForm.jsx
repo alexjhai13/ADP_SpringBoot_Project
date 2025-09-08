@@ -16,9 +16,10 @@ export default function UpdateCustomerForm() {
     name: "",
     email: "",
     password: "",
-    phone_number: "",
-    profile_picture: "",
-    job_title: "",
+    phoneNumber: "",
+    profilePicture: "",
+    jobTitle: "",
+    benefitsSelection: "",
     salary: 0,
     managerId: 0,
     level: 0,
@@ -30,17 +31,17 @@ export default function UpdateCustomerForm() {
   useEffect(() => {
     if (current) {
       const {
-        name, email, password, phone_number,
-        profile_picture, job_title, salary,
+        name, email, password, phoneNumber,
+        profilePicture, jobTitle, salary,
         benefits_selection, managerId, level
       } = current;
       setValues({
         name: name ?? "",
         email: email ?? "",
         password: password ?? "",
-        phone_number: phone_number ?? "",
-        profile_picture: profile_picture ?? "",
-        job_title: job_title ?? "",
+        phoneNumber: phoneNumber ?? "",
+        profilePicture: profilePicture ?? "",
+        jobTitle: jobTitle ?? "",
         salary: salary ?? 0,
         managerId: managerId ?? 0,
         level: level ?? 0,
@@ -84,11 +85,11 @@ export default function UpdateCustomerForm() {
       name: values.name.trim(),
       email: values.email.trim(),
       password: values.password,
-      phone_number: values.phone_number,
-      profile_picture: (values.profile_picture || '').trim(),
-      job_title: values.job_title,
+      phoneNumber: values.phoneNumber,
+      profilePicture: (values.profilePicture || '').trim(),
+      jobTitle: values.jobTitle,
       salary: values.salary,
-      benefits_selection: benefitsInput.split(",").map(s => s.trim()).filter(Boolean),
+      benefitsSelection: benefitsInput.split(",").map(s => s.trim()).join(","),
       managerId: values.managerId,
       level: values.level,
     };

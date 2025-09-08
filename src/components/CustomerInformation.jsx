@@ -36,7 +36,7 @@ const CustomerInformation = ({ customers, onRemoveCustomer }) => {
             )}
             <div className="flex flex-col items-center text-center">
               <img 
-                src={customer.profile_picture} 
+                src={customer.profilePicture} 
                 alt={customer.name}
                 className="w-24 h-24 rounded-lg object-cover mb-4"
               />
@@ -53,11 +53,11 @@ const CustomerInformation = ({ customers, onRemoveCustomer }) => {
                   </div>
                   <div>
                     <p className="font-semibold">Phone:</p>
-                    <p>{customer.phone_number}</p>
+                    <p>{customer.phoneNumber}</p>
                   </div>
                   <div>
                     <p className="font-semibold">Job Title:</p>
-                    <p>{customer.job_title}</p>
+                    <p>{customer.jobTitle}</p>
                   </div>
                   <div>
                     <p className="font-semibold">Salary:</p>
@@ -65,7 +65,7 @@ const CustomerInformation = ({ customers, onRemoveCustomer }) => {
                   </div>
                   <div>
                     <p className="font-semibold">Benefits:</p>
-                    <p>{customer.benefits_selection.join(", ")}</p>
+                    <p>{customer.benefitsSelection.split(',').join(', ') || 'None'}</p>
                   </div>
                   <div>
                     <p className="font-semibold">Reports to:</p>

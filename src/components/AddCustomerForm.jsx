@@ -9,11 +9,11 @@ export default function AddCustomerForm() {
     name: "",
     email: "",
     password: "",
-    phone_number: "",
-    profile_picture: "",
-    job_title: "",
+    phoneNumber: "",
+    profilePicture: "",
+    jobTitle: "",
     salary: "",
-    benefits_selection: [],
+    benefitsSelection: "",
     managerId: "",
     level: "",
   });
@@ -24,7 +24,7 @@ export default function AddCustomerForm() {
   const onChange = (e) => {
     const { name, value } = e.target;
   
-    if (name === "benefits_selection") {
+    if (name === "benefitsSelection") {
       setBenefitsInput(value);
     } else if (name === "salary") {
       setValues((v) => ({ ...v, [name]: Number(value) }));
@@ -54,15 +54,14 @@ export default function AddCustomerForm() {
     if (!validate()) return;
 
     const payload = {
-      id: Date.now(),
       name: values.name.trim(),
       email: values.email.trim(),
       password: values.password,
-      phone_number: values.phone_number,
-      profile_picture: (values.profile_picture || '').trim(),
-      job_title: values.job_title.trim(),
+      phoneNumber: values.phoneNumber,
+      profilePicture: (values.profilePicture || '').trim(),
+      jobTitle: values.jobTitle.trim(),
       salary: values.salary,
-      benefits_selection: benefitsInput.split(",").map(s => s.trim()).filter(Boolean),
+      benefitsSelection: benefitsInput.split(",").map(s => s.trim()).join(","),
       managerId: values.managerId,
       level: values.level,
     };
@@ -95,18 +94,18 @@ export default function AddCustomerForm() {
 
         <label className="grid gap-1">
           <span>Phone Number</span>
-          <input name="phone_number" value={values.phone_number} onChange={onChange} className="border p-2 rounded" />
+          <input name="phoneNumber" value={values.phone_number} onChange={onChange} className="border p-2 rounded" />
         </label>
 
         <label className="grid gap-1">
           <span>Profile Picture URL</span>
-          <input name="profile_picture" value={values.profile_picture} onChange={onChange} className="border p-2 rounded" />
+          <input name="profilePicture" value={values.profile_picture} onChange={onChange} className="border p-2 rounded" />
           {errors.profile_picture && <small className="text-red-600">{errors.profile_picture}</small>}
         </label>
 
         <label className="grid gap-1">
           <span>Job Title</span>
-          <input name="job_title" value={values.job_title} onChange={onChange} className="border p-2 rounded" />
+          <input name="jobTitle" value={values.job_title} onChange={onChange} className="border p-2 rounded" />
         </label>
 
         <label className="grid gap-1">
@@ -118,7 +117,7 @@ export default function AddCustomerForm() {
         <label className="grid gap-1">
           <span>Benefits Selection (comma separated)</span>
           <input
-            name="benefits_selection"
+            name="benefitsSelection"
             value={benefitsInput}
             onChange={onChange}
             className="border p-2 rounded"
