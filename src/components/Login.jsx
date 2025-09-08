@@ -6,7 +6,8 @@ import * as usersApi from "../api/users";
 import { jwtDecode } from "jwt-decode";
 
 
-const VITE_REACT_APP_AUTH_SERVER_URL=http://54.221.137.9:9000/token
+const VITE_REACT_APP_AUTH_SERVER_URL="http://54.221.137.9:9000/token"
+
 //sends headers to /token endpoint to receive JWT
 function validateLoginInfo(username, password, cb) {
   const myHeaders = new Headers();
@@ -18,7 +19,7 @@ function validateLoginInfo(username, password, cb) {
     redirect: "follow",
   };
 
-  fetch(import.meta.env.VITE_REACT_APP_AUTH_SERVER_URL, requestOptions)
+  fetch(VITE_REACT_APP_AUTH_SERVER_URL, requestOptions)
     .then((response) => {
       return response.text();
     })
