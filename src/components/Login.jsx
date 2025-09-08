@@ -5,6 +5,8 @@ import "./Login.css";
 import * as usersApi from "../api/users";
 import { jwtDecode } from "jwt-decode";
 
+
+const VITE_REACT_APP_AUTH_SERVER_URL=http://54.221.137.9:9000/token
 //sends headers to /token endpoint to receive JWT
 function validateLoginInfo(username, password, cb) {
   const myHeaders = new Headers();
